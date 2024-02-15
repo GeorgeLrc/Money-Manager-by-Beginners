@@ -1,59 +1,28 @@
-import 'package:english_words/english_words.dart';
 import 'package:flutter/material.dart';
+import 'package:mobile_app_project/data/expense_data.dart';
 import 'package:provider/provider.dart';
+import 'home.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
+  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (context) => MyAppState(),
-      child: MaterialApp(
-        title: 'Namer App',
-        theme: ThemeData(
-          useMaterial3: true,
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepOrange),
-        ),
-        home: MyHomePage(),
-      ),
-    );
-  }
-}
-
-class MyAppState extends ChangeNotifier {
-  var current = WordPair.random();
-
-  // ↓ Add this.
-  void getNext() {
-    current = WordPair.random();
-    notifyListeners();
-  }
-}
-
-class MyHomePage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    var appState = context.watch<MyAppState>();
-    var pair = appState.current;
-
-    return Scaffold(
-      body: Column(
-        children: [
-          Text('A random AWESOME idea:'),
-          Text(pair.asLowerCase),
-          ElevatedButton(
-            onPressed: () {
-              appState.getNext();
-            },
-            child: Text('Next'),
-          ),
-        ],
-      ),
-    );
+        create: (context) => ExpenseData(),
+        builder: (context, child) => MaterialApp(
+              title: 'Flutter Demo',
+              theme: ThemeData(
+                primarySwatch: Colors.amber,
+                visualDensity: VisualDensity.adaptivePlatformDensity,
+              ),
+              debugShowCheckedModeBanner: false,
+              home: Home(),
+            ));
   }
 }
